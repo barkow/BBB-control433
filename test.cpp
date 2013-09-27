@@ -9,51 +9,45 @@
 #include "RCSwitch.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 
-RCSwitch *mySwitch;// = RCSwitch();
+//Use Pin GPIO1_28 = 1*32 + 28 = PIN60
+#define PIN_NO 60
 
-void setup() {
-  mySwitch = new RCSwitch();
+RCSwitch mySwitch = RCSwitch();
 
-  // Transmitter is connected to GPIO1_28 (1*32 + 28 = 60)  
-  mySwitch->enableTransmit(60);
+int main(int argc, const char* argv[]){
+  char family;
+  int group;
+  int device;
+  int command;
+
+  if (argc != 5) {
+    std::cout << "Parameter fehlen" << std::endl;
+    std::cout << argv[0] << " Family Group Device OnOff" << std::endl;
+    std::cout << "Family: a-p" << std::endl;
+    std::cout << "Group: 1-4" << std::endl;
+    std::cout << "Device: 1-4" << std::endl;
+    std::cout << "OnOff: 0 -> Off; 1 -> On" << std::endl;
+    return -1;
+  }
+  family = (char)*argv[1];
+  group = atoi(argv[2]);
+  device = atoi(argv[3]);
+  command = atoi(argv[4]);
   
-  // Optional set pulse length.
-  // mySwitch.setPulseLength(320);
-  
-}
+  std::cout << "Family: " << family << std::endl;
+  std::cout << "Group: " << group << std::endl;
+  std::cout << "Device: " << device << std::endl;
 
-void loop() {
+  mySwitch.enableTransmit(PIN_NO);
 
-  // Switch on:
-  // The first parameter represents the familycode (a, b, c, ... f)
-  // The second parameter represents the group number
-  // The third parameter represents the device number
-  // 
-  // In this example it's family 'b', group #3, device #2 
-  mySwitch->switchOn('g', 1, 2);
-  std::cout << "Switch On"  << std::endl;
-
-  // Wait a second
-  //delay(1000);
-  usleep(1000000);
-  
-  // Switch off
-  mySwitch->switchOff('g', 1, 2);
-  std::cout << "Switch Off" << std::endl;
-  
-  // Wait another second
-  //delay(1000);
-  usleep(1000000);
-  
-}
-
-int main(){
-  std::cout << "Starte Setup" << std::endl;
-  setup();
-  std::cout << "Starte Loop" << std::endl;
-  while(1){
-    loop();
+  if (command) {
+    mySwitch.switchOn(family, group, device);
+    std::cout << "Command: ON" << std::endl;
+  } else {
+    mySwitch.switchOff(family, group, device);
+    std::cout << "Command: OFF" << std::endl;
   }
 }
