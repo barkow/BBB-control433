@@ -16,8 +16,8 @@ RCSwitch *mySwitch;// = RCSwitch();
 void setup() {
   mySwitch = new RCSwitch();
 
-  // Transmitter is connected to Arduino Pin #10  
-  mySwitch->enableTransmit(10);
+  // Transmitter is connected to GPIO1_28 (1*32 + 28 = 60)  
+  mySwitch->enableTransmit(60);
   
   // Optional set pulse length.
   // mySwitch.setPulseLength(320);

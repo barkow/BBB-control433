@@ -33,23 +33,7 @@
 #elif defined(ENERGIA) // LaunchPad, FraunchPad and StellarPad specific
     #include "Energia.h"	
 #else
-    //#include "WProgram.h"
-    #include <stdint.h>
-    #include <unistd.h>
-    typedef uint8_t boolean;
-    typedef uint8_t byte;
-    //#define NULL 0
-    #define CHANGE 1
-
-    #define HIGH 0x1
-    #define LOW 0x0
-    #define OUTPUT 0x01
-    void pinMode(uint8_t bPin, uint8_t bMode);
-    void digitalWrite(uint8_t bPin, uint8_t bVal);
-    #define delayMicroseconds(ms) usleep(ms)
-    #define attachInterrupt(arg1, arg2, arg3)
-    #define detachInterrupt(arg1)
-    #define micros(arg1) 0
+    #include "WProgram.h"
 #endif
 
 
